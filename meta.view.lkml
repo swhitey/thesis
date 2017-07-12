@@ -3,7 +3,15 @@ view: meta {
 
   dimension_group: last_roster_download {
     type: time
-    timeframes: [time, date, week, month]
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.last_roster_download ;;
   }
 

@@ -1,6 +1,9 @@
 view: game {
-  sql_table_name: public.game ;;
-
+  derived_table: {
+  sql: SELECT *,
+CASE WHEN home_score > away_score THEN home_team WHEN away_score > home_score THEN away_team END as winner
+FROM public.game  ;;
+}
   dimension: away_score {
     type: number
     sql: ${TABLE}.away_score ;;
@@ -14,6 +17,11 @@ view: game {
   dimension: away_score_q2 {
     type: number
     sql: ${TABLE}.away_score_q2 ;;
+  }
+
+  dimension: winner {
+    type: string
+    sql: ${TABLE}.winner ;;
   }
 
   dimension: away_score_q3 {
@@ -57,6 +65,7 @@ view: game {
   }
 
   dimension: gsis_id {
+    primary_key: yes
     type: string
     sql: ${TABLE}.gsis_id ;;
   }
@@ -113,19 +122,43 @@ view: game {
 
   dimension_group: start {
     type: time
-    timeframes: [time, date, week, month]
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.start_time ;;
   }
 
   dimension_group: time_inserted {
     type: time
-    timeframes: [time, date, week, month]
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.time_inserted ;;
   }
 
   dimension_group: time_updated {
     type: time
-    timeframes: [time, date, week, month]
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.time_updated ;;
   }
 
@@ -138,4 +171,24 @@ view: game {
     type: count
     drill_fields: []
   }
+
+  measure: wins {
+    type: count_distinct
+    sql: ${winner};;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

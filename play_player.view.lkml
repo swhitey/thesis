@@ -1,14 +1,25 @@
 view: play_player {
-  sql_table_name: public.play_player ;;
+  derived_table: {
+    sql: select ROW_NUMBER () OVER (ORDER BY player_id) as pk, * from public.play_player ;;
 
-  dimension: defense_ast {
-    type: number
-    sql: ${TABLE}.defense_ast ;;
+
+  }
+#   sql_table_name: public.play_player ;;
+
+  dimension: pk {
+    primary_key: yes
+    sql: ${TABLE}.pk ;;
+
   }
 
   dimension: defense_ffum {
     type: number
     sql: ${TABLE}.defense_ffum ;;
+  }
+
+  dimension: defense_ast {
+    type: number
+    sql: ${TABLE}.defense_ast ;;
   }
 
   dimension: defense_fgblk {
@@ -122,7 +133,7 @@ view: play_player {
     sql: ${TABLE}.fumbles_forced ;;
   }
 
-  dimension: fumbles_lost {
+  dimension: fumble_lost {
     type: number
     sql: ${TABLE}.fumbles_lost ;;
   }
@@ -359,6 +370,8 @@ view: play_player {
     sql: ${TABLE}.player_id ;;
   }
 
+
+
   dimension: punting_blk {
     type: number
     sql: ${TABLE}.punting_blk ;;
@@ -506,19 +519,151 @@ view: play_player {
 
   measure: count {
     type: count
-    drill_fields: [detail*]
+    drill_fields: []
   }
 
+  measure: fumbles_lost {
+    type: sum
+    sql: ${fumble_lost} ;;
+  }
+
+  measure: all_purpose_yards {
+    type: sum
+    sql: ${passing_yds}+${rushing_yds}+${kickret_yds} ;;
+    drill_fields: []
+  }
+
+  measure: passing_yards {
+    type: sum
+    sql: ${passing_yds} ;;
+    drill_fields: [qbset*]
+  }
+
+  measure: total_rushing_yards {
+    type: sum
+    sql: ${rushing_yds};;
+    drill_fields: [rbset*]
+  }
+
+  measure: total_rushing_tds {
+    type: sum
+    sql: ${rushing_tds};;
+    drill_fields: [rbset*]
+  }
+
+  measure: passing_touchdowns {
+    type: sum
+    sql: ${passing_tds};;
+    drill_fields: [qbset*]
+  }
+
+  measure: passing_attempts {
+    type: sum
+    sql: ${passing_att};;
+    drill_fields: [qbset*]
+  }
+
+  measure: completed_passes{
+    type: sum
+    sql: ${passing_cmp};;
+    drill_fields: [qbset*]
+  }
+
+  measure: incomplete_passes{
+    type: sum
+    sql: ${passing_incmp};;
+    drill_fields: [qbset*]
+  }
+
+  measure: completion_percentage {
+    type: number
+    sql: ${completed_passes}/${passing_attempts};;
+    drill_fields: [qbset*]
+  }
+
+  measure: recieving_yards{
+    type: sum
+    sql: ${receiving_yds};;
+    drill_fields: []
+  }
+  measure: recieving_tds{
+    type: sum
+    sql: ${receiving_tds};;
+    drill_fields: []
+  }
+
+  measure: interceptions_thrown {
+    type: sum
+    sql: ${passing_int};;
+    drill_fields: [qbset*]
+  }
+
+  measure: fumbles {
+    type: sum
+    sql: ${fumbles_tot};;
+    drill_fields: []
+  }
+
+  measure: yards_per_attempt {
+    type: number
+    sql: ${passing_yards}/${passing_attempts} ;;
+    drill_fields: [qbset*]
+  }
+
+  measure: tds_per_attempt {
+    type: number
+    sql: ${passing_touchdowns}/${passing_attempts} ;;
+    drill_fields: [qbset*]
+  }
+
+  measure: ints_per_attempt {
+    type: number
+    sql: ${interceptions_thrown}/${passing_attempts} ;;
+    drill_fields: [qbset*]
+  }
+
+  measure: passer_rating {
+    type: number
+    value_format_name: decimal_1
+    sql: (((((${completion_percentage}-.3) * 5) + ((${yards_per_attempt}-.3) * .25) + (${tds_per_attempt}*20) + 2.375-(${ints_per_attempt}*25))/6)*100);;
+  }
+
+
+
   # ----- Sets of fields for drilling ------
-  set: detail {
+  set: qbset {
     fields: [
-      player.last_name,
-      player.first_name,
       player.full_name,
-      player.gsis_name,
-      player.player_id,
-      play.play_id,
-      drive.drive_id
+      player.position,
+      play_player.completed_passes,
+      play_player.passing_attempts,
+      play_player.completion_percentage,
+      play_player.passing_touchdowns,
+      play_player.interceptions,
+      play_player.fumbles
+
     ]
   }
+  set: rbset {
+  fields: [
+    player.full_name,
+    player.position
+
+  ]
+  }
+  set: wrset {
+  fields: [
+    player.full_name,
+    player.position
+  ]
+
+  }
+
+
+
+
+
+
+
+
 }
