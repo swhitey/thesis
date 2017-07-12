@@ -73,8 +73,8 @@ view: player {
   }
 
   dimension: weight {
-    type: number
-    sql: ${TABLE}.weight ;;
+    type: string
+    sql: concat(${TABLE}.weight, 'lbs' );;
   }
 
   dimension: years_pro {

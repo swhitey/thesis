@@ -134,7 +134,7 @@ view: play_player {
     sql: ${TABLE}.defense_sk ;;
   }
 
-  measure: sacks {
+  measure: defense_sacks {
     type: sum
     sql: ${TABLE}.defense_sk ;;
 
@@ -145,7 +145,7 @@ view: play_player {
     sql: ${TABLE}.defense_sk_yds ;;
   }
 
-  measure: sack_yards  {
+  measure: defense_sack_yards  {
     type: sum
     sql: ${defense_sk_yds} ;;
 
@@ -212,9 +212,15 @@ view: play_player {
 
   }
 
-  dimension: fumble_lost {
+  dimension: fum_lost {
     type: number
     sql: ${TABLE}.fumbles_lost ;;
+  }
+
+  measure: fumbles_lost {
+    type: sum
+    sql: ${fum_lost} ;;
+
   }
 
   dimension: fumbles_notforced {
@@ -431,9 +437,21 @@ view: play_player {
     sql: ${TABLE}.passing_sk ;;
   }
 
+  measure: sacked {
+    type: sum
+    sql: ${passing_sk} ;;
+
+  }
+
   dimension: passing_sk_yds {
     type: number
     sql: ${TABLE}.passing_sk_yds ;;
+  }
+
+  measure: sacked_yards {
+    type: sum
+    sql: ${passing_sk_yds} ;;
+
   }
 
   dimension: passing_tds {
@@ -590,7 +608,7 @@ view: play_player {
   measure: yards_after_catch {
     type: sum
     drill_fields: [wrset*]
-    sql: ${receiving_tds} ;;
+    sql: ${receiving_yac_yds} ;;
   }
 
   dimension: receiving_yds {
@@ -679,10 +697,7 @@ view: play_player {
     drill_fields: []
   }
 
-  measure: fumbles_lost {
-    type: sum
-    sql: ${fumble_lost} ;;
-  }
+
 
   measure: all_purpose_yards {
     type: sum
@@ -735,7 +750,10 @@ view: play_player {
   }
 
 
-
+  measure: turnovers {
+    type: number
+    sql: ${fumbles_lost} ;;
+  }
 
   measure: interceptions_thrown {
     type: sum
@@ -749,20 +767,38 @@ view: play_player {
     drill_fields: []
   }
 
+  measure: yards_per_catch{
+    type: number
+    value_format_name: decimal_1
+    sql: ${receiving_yards}/nullif(${receptions},0) ;;
+
+
+  }
+
+  measure: yards_per_attempt_ugly {
+    type: number
+    hidden: yes
+    sql: ${passing_yards}/nullif(${passing_attempts},0) ;;
+    drill_fields: [qbset*]
+  }
+
   measure: yards_per_attempt {
     type: number
+    value_format_name: decimal_1
     sql: ${passing_yards}/nullif(${passing_attempts},0) ;;
     drill_fields: [qbset*]
   }
 
   measure: tds_per_attempt {
     type: number
+    value_format_name: decimal_1
     sql: ${passing_touchdowns}/nullif(${passing_attempts},0) ;;
     drill_fields: [qbset*]
   }
 
   measure: ints_per_attempt {
     type: number
+    value_format_name: decimal_1
     sql: ${interceptions_thrown}/nullif(${passing_attempts},0) ;;
     drill_fields: [qbset*]
   }
@@ -770,7 +806,7 @@ view: play_player {
   measure: passer_rating {
     type: number
     value_format_name: decimal_1
-    sql: (((((${completion_percentage}-.3) * 5) + ((${yards_per_attempt}-.3) * .25) + (${tds_per_attempt}*20) + 2.375-(${ints_per_attempt}*25))/6)*100);;
+    sql: (((((${completion_percentage}-.3) * 5) + ((${yards_per_attempt_ugly}-.3) * .25) + (${tds_per_attempt}*20) + 2.375-(${ints_per_attempt}*25))/6)*100);;
   }
 
 
