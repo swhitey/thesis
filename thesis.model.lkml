@@ -88,7 +88,7 @@ explore: play_player {
 
 
 explore: team {
-  hidden: yes
+#   hidden: yes
   join: player {
     type: inner
     sql_on: ${team.team_id} = ${player.team};;

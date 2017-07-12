@@ -16,7 +16,11 @@ view: play_player {
     type: number
     sql: ${TABLE}.defense_ffum ;;
   }
+  measure: defense_forced_fumbles  {
+    type: sum
+    sql: ${defense_ffum} ;;
 
+  }
   dimension: defense_ast {
     type: number
     sql: ${TABLE}.defense_ast ;;
@@ -31,30 +35,58 @@ view: play_player {
     type: number
     sql: ${TABLE}.defense_frec ;;
   }
+  measure: defense_fumble_recovery  {
+    type: sum
+    sql: ${defense_frec} ;;
 
+  }
   dimension: defense_frec_tds {
     type: number
     sql: ${TABLE}.defense_frec_tds ;;
   }
+  measure:  defense_fumble_recovery_tds {
+    type: sum
+    sql: ${defense_frec_tds} ;;
 
+  }
   dimension: defense_frec_yds {
     type: number
     sql: ${TABLE}.defense_frec_yds ;;
   }
+  measure:  defense_fumble_recovery_yds {
+    type: sum
+    sql: ${defense_frec_yds} ;;
 
+  }
   dimension: defense_int {
     type: number
     sql: ${TABLE}.defense_int ;;
   }
+  measure:  defense_interceptions {
+    type: sum
+    sql: ${defense_int} ;;
+
+  }
+
 
   dimension: defense_int_tds {
     type: number
     sql: ${TABLE}.defense_int_tds ;;
   }
+  measure:  defense_interception_tds {
+    type: sum
+    sql: ${defense_int_tds} ;;
 
+  }
   dimension: defense_int_yds {
     type: number
     sql: ${TABLE}.defense_int_yds ;;
+  }
+
+  measure:  defense_interception_yards {
+    type: sum
+    sql: ${defense_int_yds} ;;
+
   }
 
   dimension: defense_misc_tds {
@@ -71,7 +103,11 @@ view: play_player {
     type: number
     sql: ${TABLE}.defense_pass_def ;;
   }
+  measure:  defense_passes_defended {
+    type: sum
+    sql: ${defense_pass_def} ;;
 
+  }
   dimension: defense_puntblk {
     type: number
     sql: ${TABLE}.defense_puntblk ;;
@@ -87,9 +123,21 @@ view: play_player {
     sql: ${TABLE}.defense_safe ;;
   }
 
+  measure: defensive_safeties {
+    type: sum
+    sql: ${TABLE}.defense_safe ;;
+
+  }
+
   dimension: defense_sk {
     type: number
     sql: ${TABLE}.defense_sk ;;
+  }
+
+  measure: sacks {
+    type: sum
+    sql: ${TABLE}.defense_sk ;;
+
   }
 
   dimension: defense_sk_yds {
@@ -97,9 +145,21 @@ view: play_player {
     sql: ${TABLE}.defense_sk_yds ;;
   }
 
+  measure: sack_yards  {
+    type: sum
+    sql: ${defense_sk_yds} ;;
+
+  }
+
   dimension: defense_tkl {
     type: number
     sql: ${TABLE}.defense_tkl ;;
+  }
+
+  measure: tackles  {
+    type: sum
+    sql: ${defense_tkl} ;;
+
   }
 
   dimension: defense_tkl_loss {
@@ -107,10 +167,23 @@ view: play_player {
     sql: ${TABLE}.defense_tkl_loss ;;
   }
 
+  measure: tackles_for_loss  {
+    type: sum
+    sql: ${defense_tkl_loss} ;;
+
+  }
+
   dimension: defense_tkl_loss_yds {
     type: number
     sql: ${TABLE}.defense_tkl_loss_yds ;;
   }
+
+  measure: tackles_for_loss_yards  {
+    type: sum
+    sql: ${defense_tkl_loss_yds} ;;
+
+  }
+
 
   dimension: defense_tkl_primary {
     type: number
@@ -133,6 +206,12 @@ view: play_player {
     sql: ${TABLE}.fumbles_forced ;;
   }
 
+  measure: forced_fumbles  {
+    type: sum
+    sql: ${fumbles_forced} ;;
+
+  }
+
   dimension: fumble_lost {
     type: number
     sql: ${TABLE}.fumbles_lost ;;
@@ -153,9 +232,21 @@ view: play_player {
     sql: ${TABLE}.fumbles_rec ;;
   }
 
+  measure: fumbles_recovered  {
+    type: sum
+    sql: ${fumbles_rec} ;;
+
+  }
+
   dimension: fumbles_rec_tds {
     type: number
     sql: ${TABLE}.fumbles_rec_tds ;;
+  }
+
+  measure: fumble_recovery_tds  {
+    type: sum
+    sql: ${fumbles_rec_tds} ;;
+
   }
 
   dimension: fumbles_rec_yds {
@@ -163,9 +254,21 @@ view: play_player {
     sql: ${TABLE}.fumbles_rec_yds ;;
   }
 
+  measure: fumble_recovery_yds  {
+    type: sum
+    sql: ${fumbles_rec_yds} ;;
+
+  }
+
   dimension: fumbles_tot {
     type: number
     sql: ${TABLE}.fumbles_tot ;;
+  }
+
+  measure: fumbles_total  {
+    type: sum
+    sql: ${fumbles_tot} ;;
+
   }
 
   dimension: gsis_id {
@@ -437,9 +540,20 @@ view: play_player {
     sql: ${TABLE}.receiving_rec ;;
   }
 
+  measure: receptions {
+    type: sum
+    sql: ${receiving_rec} ;;
+  }
+
   dimension: receiving_tar {
     type: number
     sql: ${TABLE}.receiving_tar ;;
+  }
+
+  measure: targets {
+    type: sum
+    drill_fields: [wrset*]
+    sql: ${receiving_tar} ;;
   }
 
   dimension: receiving_tds {
@@ -447,24 +561,36 @@ view: play_player {
     sql: ${TABLE}.receiving_tds ;;
   }
 
-  dimension: receiving_twopta {
-    type: number
-    sql: ${TABLE}.receiving_twopta ;;
+  measure: receiving_touchdowns {
+    type: sum
+    drill_fields: [wrset*]
+    sql: ${receiving_tds} ;;
   }
 
-  dimension: receiving_twoptm {
-    type: number
-    sql: ${TABLE}.receiving_twoptm ;;
-  }
-
-  dimension: receiving_twoptmissed {
-    type: number
-    sql: ${TABLE}.receiving_twoptmissed ;;
-  }
+#   dimension: receiving_twopta {
+#     type: number
+#     sql: ${TABLE}.receiving_twopta ;;
+#   }
+#
+#   dimension: receiving_twoptm {
+#     type: number
+#     sql: ${TABLE}.receiving_twoptm ;;
+#   }
+#
+#   dimension: receiving_twoptmissed {
+#     type: number
+#     sql: ${TABLE}.receiving_twoptmissed ;;
+#   }
 
   dimension: receiving_yac_yds {
     type: number
     sql: ${TABLE}.receiving_yac_yds ;;
+  }
+
+  measure: yards_after_catch {
+    type: sum
+    drill_fields: [wrset*]
+    sql: ${receiving_tds} ;;
   }
 
   dimension: receiving_yds {
@@ -472,9 +598,21 @@ view: play_player {
     sql: ${TABLE}.receiving_yds ;;
   }
 
+  measure: receiving_yards {
+    type: sum
+    sql: ${receiving_yds};;
+    drill_fields: []
+  }
+
   dimension: rushing_att {
     type: number
     sql: ${TABLE}.rushing_att ;;
+  }
+
+  measure: carries {
+    type: sum
+    drill_fields: [rbset*]
+    sql: ${rushing_att} ;;
   }
 
   dimension: rushing_loss {
@@ -492,24 +630,43 @@ view: play_player {
     sql: ${TABLE}.rushing_tds ;;
   }
 
-  dimension: rushing_twopta {
-    type: number
-    sql: ${TABLE}.rushing_twopta ;;
+  measure: rushing_touchdowns {
+    type: sum
+    drill_fields: [rbset*]
+    sql: ${rushing_tds} ;;
   }
-
-  dimension: rushing_twoptm {
-    type: number
-    sql: ${TABLE}.rushing_twoptm ;;
-  }
-
-  dimension: rushing_twoptmissed {
-    type: number
-    sql: ${TABLE}.rushing_twoptmissed ;;
-  }
+#   dimension: rushing_twopta {
+#     type: number
+#     sql: ${TABLE}.rushing_twopta ;;
+#   }
+#
+#   dimension: rushing_twoptm {
+#     type: number
+#     sql: ${TABLE}.rushing_twoptm ;;
+#   }
+#
+#   dimension: rushing_twoptmissed {
+#     type: number
+#     sql: ${TABLE}.rushing_twoptmissed ;;
+#   }
 
   dimension: rushing_yds {
     type: number
     sql: ${TABLE}.rushing_yds ;;
+  }
+
+
+  measure: total_rushing_yards{
+    type: sum
+    drill_fields: [rbset*]
+    sql: ${rushing_yds} ;;
+  }
+
+  measure: yards_per_carry {
+    type: number
+    value_format_name: decimal_1
+    sql: ${total_rushing_yards}/nullif(${carries},0)  ;;
+
   }
 
   dimension: team {
@@ -539,11 +696,6 @@ view: play_player {
     drill_fields: [qbset*]
   }
 
-  measure: total_rushing_yards {
-    type: sum
-    sql: ${rushing_yds};;
-    drill_fields: [rbset*]
-  }
 
   measure: total_rushing_tds {
     type: sum
@@ -577,20 +729,13 @@ view: play_player {
 
   measure: completion_percentage {
     type: number
-    sql: ${completed_passes}/${passing_attempts};;
+    value_format_name: percent_2
+    sql: ${completed_passes}/nullif(${passing_attempts},0);;
     drill_fields: [qbset*]
   }
 
-  measure: recieving_yards{
-    type: sum
-    sql: ${receiving_yds};;
-    drill_fields: []
-  }
-  measure: recieving_tds{
-    type: sum
-    sql: ${receiving_tds};;
-    drill_fields: []
-  }
+
+
 
   measure: interceptions_thrown {
     type: sum
@@ -606,19 +751,19 @@ view: play_player {
 
   measure: yards_per_attempt {
     type: number
-    sql: ${passing_yards}/${passing_attempts} ;;
+    sql: ${passing_yards}/nullif(${passing_attempts},0) ;;
     drill_fields: [qbset*]
   }
 
   measure: tds_per_attempt {
     type: number
-    sql: ${passing_touchdowns}/${passing_attempts} ;;
+    sql: ${passing_touchdowns}/nullif(${passing_attempts},0) ;;
     drill_fields: [qbset*]
   }
 
   measure: ints_per_attempt {
     type: number
-    sql: ${interceptions_thrown}/${passing_attempts} ;;
+    sql: ${interceptions_thrown}/nullif(${passing_attempts},0) ;;
     drill_fields: [qbset*]
   }
 
@@ -641,14 +786,12 @@ view: play_player {
       play_player.passing_touchdowns,
       play_player.interceptions,
       play_player.fumbles
-
     ]
   }
   set: rbset {
   fields: [
     player.full_name,
     player.position
-
   ]
   }
   set: wrset {

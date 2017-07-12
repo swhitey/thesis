@@ -2,7 +2,7 @@ view: game {
   derived_table: {
   sql: SELECT *,
 CASE WHEN home_score > away_score THEN home_team WHEN away_score > home_score THEN away_team END as winner
-FROM public.game  ;;
+FROM public.game WHERE season_year = '2015' ;;
 }
   dimension: away_score {
     type: number
