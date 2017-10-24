@@ -62,17 +62,8 @@ view: drive {
     sql: ${TABLE}.start_time ;;
   }
 
-  dimension_group: time_inserted {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: time_inserted {
+    type: date_time_of_day
     sql: ${TABLE}.time_inserted ;;
   }
 

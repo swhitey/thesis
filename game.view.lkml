@@ -24,6 +24,13 @@ FROM public.game WHERE season_year = '2015' ;;
     sql: ${TABLE}.winner ;;
   }
 
+  dimension: tier_test {
+    type: tier
+    tiers: [1,3,7]
+    sql: ${away_score_q1} ;;
+
+  }
+
   dimension: away_score_q3 {
     type: number
     sql: ${TABLE}.away_score_q3 ;;

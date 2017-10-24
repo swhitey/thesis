@@ -31,6 +31,8 @@ view: play_player {
     sql: ${TABLE}.defense_fgblk ;;
   }
 
+  dimension: sfjdksjh {}
+
   dimension: defense_frec {
     type: number
     sql: ${TABLE}.defense_frec ;;

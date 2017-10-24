@@ -112,7 +112,8 @@ view: play {
       week,
       month,
       quarter,
-      year
+      year,
+      time_of_day
     ]
     sql: ${TABLE}.time_inserted ;;
   }
@@ -124,6 +125,7 @@ view: play {
       time,
       date,
       week,
+      time_of_day,
       month,
       quarter,
       year

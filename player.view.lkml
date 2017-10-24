@@ -17,6 +17,20 @@ view: player {
     sql: ${TABLE}.college ;;
   }
 
+  # measure: contains {
+  #   type: yesno
+
+  #   filters: {
+  #     field: college
+  #     value: "%alabama%"
+  #   }
+  #   filters: {
+  #     field: college
+  #     value: "%Alabama%"
+  #   }
+
+  # }
+
   dimension: first_name {
     type: string
     sql: ${TABLE}.first_name ;;
