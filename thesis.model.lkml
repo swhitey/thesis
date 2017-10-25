@@ -24,7 +24,7 @@ explore: agg_play {
 
 # explore: drive {}
 #
-# explore: game {}
+explore: game {}
 #
 # explore: meta {}
 
@@ -81,6 +81,13 @@ explore: play_player {
     type: left_outer
     sql_on: ${game.gsis_id} = ${play_player.gsis_id};;
     relationship: many_to_one
+  }
+
+  join: fanout_table {
+    type: left_outer
+    sql_on: ${fanout_table.player_id}=${player.player_id} ;;
+    relationship: one_to_many
+
   }
 
 }

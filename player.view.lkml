@@ -35,7 +35,7 @@ view: player {
     type: string
     sql: ${TABLE}.first_name ;;
   }
-
+#
   dimension: full_name {
     type: string
     sql: ${TABLE}.full_name ;;
@@ -59,6 +59,58 @@ view: player {
   dimension: position {
     type: string
     sql: ${TABLE}.position ;;
+  }
+
+#   dimension: full_name_link{
+#     type: string
+#     sql:  CASE WHEN ${position} = 'QB' THEN ${qb_drill}
+#            WHEN ${position} = 'WR' THEN ${wr_drill}
+#            WHEN ${position} = 'RB' THEN ${rb_drill}
+#            WHEN ${position} in ('OLB','ILB','MLB','SS','SAF','CB','DB','FS','LB') THEN ${d_drill}
+#           else ${full_name}
+#           END
+#           ;;
+#
+#
+#   }
+
+  dimension: qb_drill {
+    type: string
+    sql: ${TABLE}.full_name ;;
+    link: {
+      label: "QB Dashboard"
+      url: "https://localhost:9999/dashboards/4?Name={{ filterable_value }}&Season_Type={{ _filters['game.season_type'] | url_encode }}&Year={{ _filters['game.season_year']}}"
+    }
+
+  }
+
+  dimension: wr_drill {
+    type: string
+    sql: ${TABLE}.full_name ;;
+    link: {
+      label: "WR Dashboard"
+      url: "https://localhost:9999/dashboards/8?Name={{ filterable_value }}&Season_Type={{ _filters['game.season_type'] | url_encode }}&Year={{ _filters['game.season_year']}}"
+    }
+
+  }
+
+  dimension: rb_drill {
+    type: string
+    sql: ${TABLE}.full_name ;;
+    link: {
+      label: "RB Dashboard"
+      url: "https://localhost:9999/dashboards/7?Name={{ filterable_value }}&Season_Type={{ _filters['game.season_type'] | url_encode }}&Year={{ _filters['game.season_year']}}"
+    }
+
+  }
+
+  dimension: d_drill {
+    type: string
+    sql: ${TABLE}.full_name ;;
+    link: {
+      label: "Defense Dashboard"
+      url: "https://localhost:9999/dashboards/10?Name={{ filterable_value }}&Season_Type={{ _filters['game.season_type'] | url_encode }}&Year={{ _filters['game.season_year']}}"
+    }
   }
 
   dimension: profile_id {
