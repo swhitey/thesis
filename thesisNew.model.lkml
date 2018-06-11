@@ -83,12 +83,12 @@ explore: play_player {
     relationship: many_to_one
   }
 
-  join: fanout_table {
-    type: left_outer
-    sql_on: ${fanout_table.player_id}=${player.player_id} ;;
-    relationship: one_to_many
-
-  }
+#   join: fanout_table {
+#     type: left_outer
+#     sql_on: ${fanout_table.player_id}=${player.player_id} ;;
+#     relationship: one_to_many
+#
+#   }
 
 }
 

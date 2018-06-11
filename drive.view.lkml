@@ -62,8 +62,8 @@ view: drive {
     sql: ${TABLE}.start_time ;;
   }
 
-  dimension: time_inserted {
-    type: date_time_of_day
+  dimension_group: time_inserted {
+    type: time
     sql: ${TABLE}.time_inserted ;;
   }
 
@@ -82,6 +82,7 @@ view: drive {
   }
 
   dimension: yards_gained {
+    group_label: "Time Updated Date"
     type: number
     sql: ${TABLE}.yards_gained ;;
   }

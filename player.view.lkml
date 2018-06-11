@@ -134,8 +134,11 @@ view: player {
   }
 
   dimension: uniform_number {
-    type: number
+    type: tier
+    tiers: [0, 10, 20, 30, 40, 50, 60, 70, 80]
+    style: integer
     sql: ${TABLE}.uniform_number ;;
+
   }
 
   dimension: weight {

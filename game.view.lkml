@@ -174,11 +174,22 @@ FROM public.game
   dimension: week {
     type: number
     sql: ${TABLE}.week ;;
+    link: {
+      url: "https://localhost:9999/explore2/thesis/game?fields=game.week,game.winner&f[game.time_updated_week]={{value}}&sorts=game.week&limit=500&vis=%7B%7D&filter_config=%7B%22game.time_updated_week%22%3A%5B%7B%22type%22%3A%22past%22%2C%22values%22%3A%5B%7B%22constant%22%3A%224%22%2C%22unit%22%3A%22wk%22%7D%2C%7B%7D%5D%2C%22id%22%3A0%7D%5D%7D&origin=share-expanded"
+      label: " linnk"
+
+    }
   }
 
   measure: count {
     type: count
     drill_fields: []
+    filters: {
+      field: "finished"
+      value: "%"
+
+
+    }
   }
 
   measure: wins {
