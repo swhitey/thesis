@@ -91,7 +91,7 @@ explore: play_player {
 #   }
 
 }
-
+explore: project_rename_pdt_test {}
 
 
 
