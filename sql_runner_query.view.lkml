@@ -1,4 +1,4 @@
-view: sql_runner_query {
+view: project_rename_pdt_test {
   derived_table: {
     sql: SELECT * FROM public.game LIMIT 10
       ;;
