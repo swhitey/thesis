@@ -2,6 +2,7 @@ view: sql_runner_query {
   derived_table: {
     sql: SELECT * FROM public.game LIMIT 10
       ;;
+      sql_trigger_value: select trunc('minute',current_timestamp) ;;
   }
 
   measure: count {
