@@ -2,7 +2,7 @@ view: project_rename_pdt_test {
   derived_table: {
     sql: SELECT * FROM public.game LIMIT 10
       ;;
-      sql_trigger_value: select trunc('minute',current_timestamp) ;;
+      sql_trigger_value: select date_trunc('minute',current_timestamp) ;;
   }
 
   measure: count {
